@@ -11,7 +11,12 @@ router.get('/add-product', (req, res, next) => { // with get, use an exact path 
   //   // '<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>'
   //   path.join(rootDir, 'views', 'add-product.pug')
   // );
-  res.render('add-product', { pageTitle: 'Add Product', path: '/admin/add-product' })
+  res.render('add-product', {
+    pageTitle: 'Add Product', path: '/admin/add-product',
+    activeProduct: true,
+    formsCSS: true,
+    productCSS: true
+  })
 });
 
 router.post('/add-product', (req, res, next) => {

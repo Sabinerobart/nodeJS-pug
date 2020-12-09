@@ -10,7 +10,15 @@ router.get('/', (req, res, next) => {
   console.log('object :', products); // infos on the node server, cross-users, not what you want !
   // res.send('<h1>Hello from Express!</h1>');
   // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-  res.render('shop', { products, docTitle: 'Shop', path: '/', pageTitle: 'Shop' });
+  res.render('shop', {
+    products,
+    docTitle: 'Shop',
+    path: '/',
+    pageTitle: 'Shop',
+    hasProducts: products.length > 0,
+    activeShop: true,
+    productCSS: true
+  });
 });
 
 module.exports = router;
