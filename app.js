@@ -9,7 +9,7 @@ const path = require('path');
 
 const app = express();
 app.set('view engine', 'pug'); // global config
-app.set('views', 'views'); // in case the views folder didn't have the same name as the default's
+app.set('views', 'views/pug'); // in case the views folder didn't have the same name as the default's
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
