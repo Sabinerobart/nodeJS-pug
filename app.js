@@ -18,21 +18,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   next(); // Allows the request to continue to the next middleware
 // });
 
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const { notFound } = require('./controllers/error');
 
 app.use(shopRoutes);
 
 // Filter the routes : the adminRoutes all begin with /admin
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 
 // Use the css static file in the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Handle 404 pages for every other routes
-app.use((req, res, next) => {
-  // res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
-  res.status(404).render('404', { pageTitle: 404, pageTitle: '404' })
-})
+app.use(notFound);
 
 app.listen(3000);
