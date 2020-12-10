@@ -1,4 +1,5 @@
-const products = [];
+const Product = require('../models/product');
+
 
 exports.getAddProduct = (req, res, next) => { // with get, use an exact path ('/add-product'))
   // res.sendFile(
@@ -9,11 +10,13 @@ exports.getAddProduct = (req, res, next) => { // with get, use an exact path ('/
 };
 
 exports.postAddProduct = (req, res, next) => {
-  products.push({ title: req.body.title })
+  const product = new Product(req.body.title);
+  product.save();
   res.status(200).redirect('/');
 };
 
 exports.getProducts = (req, res, next) => {
+  const products = Product.fetchAll();
   console.log('object :', products); // infos on the node server, cross-users, not what you want !
   // res.send('<h1>Hello from Express!</h1>');
   // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
