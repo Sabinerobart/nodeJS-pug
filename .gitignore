@@ -2,3 +2,6 @@
 .env
 .vagrant
 .vscode
+
+# saved data
+data/products.json
