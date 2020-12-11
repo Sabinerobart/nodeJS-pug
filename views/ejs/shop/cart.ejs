@@ -5,6 +5,16 @@
   <%- include('../includes/navigation.ejs') %>
 
   <main>
-    <h1>This is your cart</h1>
+    <% if (products.length > 0) { %>
+    <div class="grid">
+      <ul>
+        <% for (let product of products) { %>
+        <li><%= product.productData.title %> - <%= product.productData.price %> € - [<%= product.qty %>]</li>
+        <% } %>
+      </ul>
+    </div>
+    <% } else { %>
+    <h1>your cart is empty</h1>
+    <% } %>
   </main>
   <%- include('../includes/end.ejs') %>

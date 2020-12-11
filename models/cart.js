@@ -7,6 +7,16 @@ const p = path.join(
   'cart.json'
 );
 
+const getProductsFromFile = cb => {
+  fs.readFile(p, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
+
 module.exports = class Cart {
   static addProduct(id, productPrice) {
     fs.readFile(p, (err, fileContent) => {
@@ -59,6 +69,10 @@ module.exports = class Cart {
         console.log(err);
       });
     });
-  }
+  };
+
+  static getCart(cb) {
+    getProductsFromFile(cb);
+  };
 
 }
