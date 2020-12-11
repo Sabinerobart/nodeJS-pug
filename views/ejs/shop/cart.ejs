@@ -6,13 +6,19 @@
 
   <main>
     <% if (products.length > 0) { %>
-    <div class="grid">
-      <ul>
-        <% for (let product of products) { %>
-        <li><%= product.productData.title %> - <%= product.productData.price %> € - [<%= product.qty %>]</li>
-        <% } %>
-      </ul>
-    </div>
+    <ul>
+      <% for (let product of products) { %>
+      <li>
+        <p><%= product.productData.title %> - <%= product.productData.price %> € - [<%= product.qty %>]</p>
+        <form action="/cart-delete-item" method="POST">
+          <input type="hidden" name="itemId" id="itemId" value="<%= product.productData.id %>">
+          <input type="hidden" name="itemPrice" id="itemPrice" value="<%= product.productData.price %>">
+          <button class="btn">x</button>
+        </form>
+      </li>
+      <% } %>
+      <h1>Total : <%= total %> €</h1>
+    </ul>
     <% } else { %>
     <h1>your cart is empty</h1>
     <% } %>
