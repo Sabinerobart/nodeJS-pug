@@ -3,9 +3,11 @@ Serverside rendering with nodeJS and templating engine
 
 - With **EJS** + **Databases** :
 
+  - ## With **MongoDB**
+    Switch to the [main](https://github.com/Sabinerobart/nodeJS-with-templating-engines/tree/main) branch
+
   - ## With **MySQL + sequelize database**
     Switch to the [with-EJS-and-mySQL-sequelize](https://github.com/Sabinerobart/nodeJS-with-templating-engines/tree/with-EJS-and-mySQL-sequelize) branch
-
 
 - With **Local files** as Databases :
 
