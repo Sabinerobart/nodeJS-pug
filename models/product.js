@@ -47,6 +47,14 @@ class Product {
       })
       .catch(err => console.log("error in findById: ", err))
   }
+
+  static deleteById(prodId) {
+    const db = getDb();
+    return db.collection('products')
+      .deleteOne({ _id: new mongodb.ObjectId(prodId) })
+      .then(() => console.log("Deleted !"))
+      .catch(err => console.log("error in deleteById : ", err))
+  }
 }
 
 module.exports = Product;
