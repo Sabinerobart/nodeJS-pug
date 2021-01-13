@@ -1,4 +1,5 @@
 const getDb = require('../util/database').getDb;
+const mongodb = require('mongodb');
 
 class Product {
   constructor(title, price, description, imageUrl) {
@@ -10,10 +11,35 @@ class Product {
 
   save() {
     const db = getDb();
-    db.collection('products')
+    return db.collection('products')
       .insertOne(this)
       .then(result => console.log('res', result))
       .catch(err => console.log('err', err));
+  }
+
+  static fetchAll() {
+    const db = getDb();
+    return db.collection('products')
+      .find()
+      .toArray() // better use pagination when you know you'll receive lots of results
+      .then(products => {
+        console.log('Find products : ', products);
+        return products;
+      })
+      .catch(err => console.log("error in fetchAll: ", err))
+  }
+
+
+  static findById(prodId) {
+    const db = getDb();
+    return db.collection('products')
+      .find({ _id: new mongodb.ObjectId(prodId) })
+      .next()
+      .then(product => {
+        console.log('Find a product by its id : ', product);
+        return product;
+      })
+      .catch(err => console.log("error in findById: ", err))
   }
 }
 
