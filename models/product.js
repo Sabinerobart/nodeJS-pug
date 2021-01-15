@@ -8,7 +8,7 @@ class Product {
     this.description = description;
     this.imageUrl = imageUrl;
     this._id = id ? new mongodb.ObjectId(id) : null;
-    this.userId = userId;
+    this.userId = new mongodb.ObjectId(userId);
   }
 
   save() {
@@ -30,7 +30,7 @@ class Product {
       .find()
       .toArray() // better use pagination when you know you'll receive lots of results
       .then(products => {
-        console.log('Find products : ', products);
+        // console.log('Find products : ', products);
         return products;
       })
       .catch(err => console.log("error in fetchAll: ", err))
@@ -43,7 +43,7 @@ class Product {
       .find({ _id: new mongodb.ObjectId(prodId) })
       .next()
       .then(product => {
-        console.log('Find a product by its id : ', product);
+        // console.log('Find a product by its id : ', product);
         return product;
       })
       .catch(err => console.log("error in findById: ", err))
