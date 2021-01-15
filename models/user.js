@@ -47,5 +47,21 @@ class User {
         { $set: { cart: updatedCart } } // overwrite the old cart with the new one, keep all other infos
       )
   }
+
+  getCart() {
+    const db = getDb();
+    const productIds = this.cart.items.map(x => x.productId);
+    return db.collection('products')
+      .find({ _id: { $in: productIds } })
+      .toArray()
+      .then(products => {
+        return products.map(product => {
+          return {
+            ...product,
+            quantity: this.cart.items.find(i => i.productId?.toString() === product._id?.toString())?.quantity
+          }
+        })
+      })
+  }
 }
 module.exports = User;
