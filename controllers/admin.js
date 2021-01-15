@@ -9,16 +9,13 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
-  const description = req.body.description;
-  const product = new Product(title, price, description, imageUrl);
+  const userId = req.user?._id;
+  const { title, imageUrl, price, description } = req.body;
+  const product = new Product(title, price, description, imageUrl, null, userId);
 
   product.save()
     .then(result => {
-      // console.log(result);
-      console.log('Created Product');
+      console.log('Created Product :', result);
       res.redirect('/admin/products');
     })
     .catch(err => {
@@ -85,5 +82,5 @@ exports.postDeleteProduct = (req, res, next) => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products');
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('🚀 ~ file: admin.js ~ line 89 ~ exports.postDeleteProduct ~ err', err))
 };
