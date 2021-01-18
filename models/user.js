@@ -73,5 +73,19 @@ class User {
         { $set: { cart: { items: updatedCartItems } } } // overwrite the old cart with the new one, keep all other infos
       )
   }
+
+  addOrder() {
+    const db = getDb();
+    return db.collection('orders')
+      .insertOne(this.cart)
+      .then(() => {
+        this.cart = { items: [] }
+        return db.collection('users')
+          .updateOne(
+            { _id: new mongodb.ObjectId(this.id) },
+            { $set: { cart: { items: [] } } }
+          )
+      }) // once the order is placed, the cart is emptied locally + in the users collections
+  }
 }
 module.exports = User;
