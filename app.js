@@ -2,8 +2,8 @@ const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoConnect = require('./util/database').mongoConnect;
-
+// const mongoConnect = require('./util/database').mongoConnect;
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -34,6 +34,8 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose.connect(process.env.DB_URL)
+  .then(() => {
+    app.listen(3000)
+  })
+  .catch(() => console.log("Error connecting to DB"))
