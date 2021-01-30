@@ -87,18 +87,17 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  let fetchedCart;
   req.user
     .addOrder()
     .then(result => {
       res.redirect('/orders');
     })
-    .catch(err => console.log("Post Order error: ", err));
+    .catch(err => console.log("post order error : ", err));
 };
 
 exports.getOrders = (req, res, next) => {
   req.user
-    .getOrders({ include: ['products'] })
+    .getOrders()
     .then(orders => {
       res.render('shop/orders', {
         path: '/orders',
@@ -106,5 +105,5 @@ exports.getOrders = (req, res, next) => {
         orders: orders
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("Error getting orders", err));
 };
