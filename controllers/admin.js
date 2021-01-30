@@ -74,7 +74,10 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find()
+    // .select('title price -_id') // Select which infos you want to keep, which ones to exclude with the '-' sign (or leave empty)
+    // .populate('userId', 'name -_id') // Populate the results with the related user's infos, the second argument selects which infos you want to keep or leave out from the populate method
     .then(products => {
+      // console.log('🚀 ~ file: admin.js ~ line 79 ~ products', products)
       res.render('admin/products', {
         prods: products,
         pageTitle: 'Admin Products',
