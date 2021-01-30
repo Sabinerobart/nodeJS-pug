@@ -2,7 +2,6 @@ const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-// const mongoConnect = require('./util/database').mongoConnect;
 const mongoose = require('mongoose');
 
 const app = express();
@@ -36,6 +35,8 @@ app.use(errorController.get404);
 
 mongoose.connect(process.env.DB_URL)
   .then(() => {
-    app.listen(3000)
+    app.listen(3000);
+    console.log("---------------")
+    console.log("Connected to DB")
   })
   .catch(() => console.log("Error connecting to DB"))
