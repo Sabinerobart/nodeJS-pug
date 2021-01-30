@@ -37,32 +37,6 @@ module.exports = mongoose.model('Product', productSchema); // Set the schema's n
 //     this.userId = new mongodb.ObjectId(userId);
 //   }
 
-//   save() {
-//     const db = getDb();
-//     let dbOp;
-//     if (this._id) {
-//       dbOp = db.collection('products').updateOne({ _id: this._id }, { $set: this });
-//     } else {
-//       dbOp = db.collection('products').insertOne(this);
-//     }
-//     return dbOp
-//       .then(result => console.log('res', result))
-//       .catch(err => console.log('err', err));
-//   }
-
-//   static fetchAll() {
-//     const db = getDb();
-//     return db.collection('products')
-//       .find()
-//       .toArray() // better use pagination when you know you'll receive lots of results
-//       .then(products => {
-//         // console.log('Find products : ', products);
-//         return products;
-//       })
-//       .catch(err => console.log("error in fetchAll: ", err))
-//   }
-
-
 //   static findById(prodId) {
 //     const db = getDb();
 //     return db.collection('products')
