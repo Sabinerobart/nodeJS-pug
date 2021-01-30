@@ -3,8 +3,11 @@ Serverside rendering with nodeJS and templating engine
 
 - With **EJS** + **Databases** :
 
-  - ## With **MongoDB**
-    Switch to the [main](https://github.com/Sabinerobart/nodeJS-with-templating-engines/tree/main) branch
+  - ## With **MongoDB + Mongoose**
+    Switch to the [with-mongoose](https://github.com/Sabinerobart/nodeJS-with-templating-engines/tree/with-mongoose) branch
+    
+  - ## With **MongoDB + Mongo Driver (basic)**
+    Switch to the [with-mongDB-and-mongo-driver](https://github.com/Sabinerobart/nodeJS-with-templating-engines/tree/with-mongDB-and-mongo-driver) branch
 
   - ## With **MySQL + sequelize database**
     Switch to the [with-EJS-and-mySQL-sequelize](https://github.com/Sabinerobart/nodeJS-with-templating-engines/tree/with-EJS-and-mySQL-sequelize) branch
