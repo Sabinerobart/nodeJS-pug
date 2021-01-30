@@ -11,9 +11,16 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const userId = req.user?._id;
   const { title, imageUrl, price, description } = req.body;
-  const product = new Product(title, price, description, imageUrl, null, userId);
+  const product = new Product({
+    title: title,
+    price: price,
+    description: description,
+    imageUrl: imageUrl
+    // , null, userId
+  });
 
-  product.save()
+  product
+    .save() // Now, this method is provided by mongoose (not defined by us in the product model anymore)
     .then(result => {
       console.log('Created Product :', result);
       res.redirect('/admin/products');
