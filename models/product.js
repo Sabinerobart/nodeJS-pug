@@ -37,17 +37,6 @@ module.exports = mongoose.model('Product', productSchema); // Set the schema's n
 //     this.userId = new mongodb.ObjectId(userId);
 //   }
 
-//   static findById(prodId) {
-//     const db = getDb();
-//     return db.collection('products')
-//       .find({ _id: new mongodb.ObjectId(prodId) })
-//       .next()
-//       .then(product => {
-//         // console.log('Find a product by its id : ', product);
-//         return product;
-//       })
-//       .catch(err => console.log("error in findById: ", err))
-//   }
 
 //   static deleteById(prodId) {
 //     const db = getDb();

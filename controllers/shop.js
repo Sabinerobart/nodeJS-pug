@@ -11,22 +11,13 @@ exports.getProducts = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      console.log("Error while fetching all products :", err);
     });
 };
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  // Product.findAll({ where: { id: prodId } })
-  //   .then(products => {
-  //     res.render('shop/product-detail', {
-  //       product: products[0],
-  //       pageTitle: products[0].title,
-  //       path: '/products'
-  //     });
-  //   })
-  //   .catch(err => console.log(err));
-  Product.findById(prodId)
+  Product.findById(prodId) // Method provided by mongoose
     .then(product => {
       res.render('shop/product-detail', {
         product: product,
@@ -34,7 +25,7 @@ exports.getProduct = (req, res, next) => {
         path: '/products'
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("Error while fetching a single product : ", err));
 };
 
 exports.getIndex = (req, res, next) => {
