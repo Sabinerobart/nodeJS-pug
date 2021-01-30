@@ -9,14 +9,13 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const userId = req.user?._id;
   const { title, imageUrl, price, description } = req.body;
   const product = new Product({
     title: title,
     price: price,
     description: description,
-    imageUrl: imageUrl
-    // , null, userId
+    imageUrl: imageUrl,
+    userId: req.user // Mongoose selects the user id automatically, not necessary to specify
   });
 
   product
