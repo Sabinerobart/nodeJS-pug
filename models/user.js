@@ -48,6 +48,12 @@ userSchema.methods.addToCart = function (product) {
   return this.save();
 }
 
+userSchema.methods.removeFromCart = function (productId) {
+  const updatedCartItems = this.cart.items.filter(item => item.productId.toString() !== productId.toString());
+  this.cart.items = updatedCartItems; // update the user's cart with the new items
+  return this.save(); // then save the updated user
+}
+
 module.exports = mongoose.model('User', userSchema);
 
 
@@ -60,16 +66,6 @@ module.exports = mongoose.model('User', userSchema);
 //     this.email = email;
 //     this.cart = cart;
 //     this._id = id;
-//   }
-
-//   deleteItemFromCart(prodId) {
-//     const updatedCartItems = this.cart.items.filter(item => item.productId.toString() !== prodId.toString());
-//     const db = getDb();
-//     return db.collection('users')
-//       .updateOne(
-//         { _id: new mongodb.ObjectId(this.id) },
-//         { $set: { cart: { items: updatedCartItems } } } // overwrite the old cart with the new one, keep all other infos
-//       )
 //   }
 
 //   addOrder() {
