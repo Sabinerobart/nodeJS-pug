@@ -62,35 +62,6 @@ module.exports = mongoose.model('User', userSchema);
 //     this._id = id;
 //   }
 
-//   save() {
-//     const db = getDb();
-//     let dbOp;
-//     return dbOp = db.collection('users').insertOne(this);
-//   }
-
-//   static findById(userId) {
-//     const db = getDb();
-
-//     return db.collection('users')
-//       .findOne({ _id: new mongodb.ObjectId(userId) });
-//   }
-
-//   getCart() {
-//     const db = getDb();
-//     const productIds = this.cart.items.map(x => x.productId);
-//     return db.collection('products')
-//       .find({ _id: { $in: productIds } })
-//       .toArray()
-//       .then(products => {
-//         return products.map(product => {
-//           return {
-//             ...product,
-//             quantity: this.cart.items.find(i => i.productId?.toString() === product._id?.toString())?.quantity
-//           }
-//         })
-//       })
-//   }
-
 //   deleteItemFromCart(prodId) {
 //     const updatedCartItems = this.cart.items.filter(item => item.productId.toString() !== prodId.toString());
 //     const db = getDb();
