@@ -13,7 +13,10 @@ exports.postLogin = (req, res, next) => {
     .then(user => {
       req.session.isLoggedIn = true;
       req.session.user = user; // Store the created user in the request
-      res.redirect('/');
+      req.session.save(err => { // Ensures the session is saved to mongoDB before redirect (prevent delayed infos)
+        console.log("Error saving the session", err)
+        res.redirect('/');
+      })
     })
     .catch(err => console.log(err));
   // next(); // Was added to bypass the user identification flow
