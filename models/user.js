@@ -54,6 +54,11 @@ userSchema.methods.removeFromCart = function (productId) {
   return this.save(); // then save the updated user
 }
 
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
+  return this.save();
+}
+
 module.exports = mongoose.model('User', userSchema);
 
 
@@ -66,30 +71,6 @@ module.exports = mongoose.model('User', userSchema);
 //     this.email = email;
 //     this.cart = cart;
 //     this._id = id;
-//   }
-
-//   addOrder() {
-//     const db = getDb();
-//     return this.getCart()
-//       .then(products => {
-//         const order = {
-//           items: products,
-//           user: {
-//             _id: new mongodb.ObjectId(this._id),
-//             name: this.name
-//           }
-//         };
-//         return db.collection('orders').insertOne(order);
-//       })
-//       .then(result => {
-//         this.cart = { items: [] };
-//         return db
-//           .collection('users')
-//           .updateOne(
-//             { _id: new mongodb.ObjectId(this._id) },
-//             { $set: { cart: { items: [] } } }
-//           );
-//       });
 //   }
 
 //   getOrders() {

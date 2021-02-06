@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Order = require('../models/order');
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -83,8 +84,30 @@ exports.postCartDeleteProduct = (req, res, next) => {
 
 exports.postOrder = (req, res, next) => {
   req.user
-    .addOrder()
-    .then(result => {
+    .populate('cart.items.productId')
+    .execPopulate() // Added because .populate() doesn't return a promise, so we couldn't chain .then()
+    .then(user => {
+      console.log('🚀 ~ file: shop.js ~ line 91 ~ user', user)
+      const products = user.cart.items.map(i => {
+        return {
+          quantity: i.quantity,
+          product: { ...i.productId._doc } // spread all content stored in the productId, and with ._doc we keep the infos we need instead of all mongoDb infos
+        }
+      });
+
+      const order = new Order({
+        user: {
+          name: req.user.name,
+          userId: req.user // mongoose picks the id itself
+        },
+        products: products
+      });
+      order.save()
+    })
+    .then(() => {
+      return req.user.clearCart();
+    })
+    .then(() => {
       res.redirect('/orders');
     })
     .catch(err => console.log("post order error : ", err));
