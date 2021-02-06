@@ -2,13 +2,15 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 
 exports.getProducts = (req, res, next) => {
+  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   Product.find()
     .then(products => {
       console.log('🚀 ~ file: shop.js ~ line 6 ~ products', products)
       res.render('shop/product-list', {
         products: products,
         pageTitle: 'All Products',
-        path: '/products'
+        path: '/products',
+        isAuthenticated: isLoggedIn
       });
     })
     .catch(err => {
@@ -17,25 +19,29 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
+  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   const prodId = req.params.productId;
   Product.findById(prodId) // Method provided by mongoose
     .then(product => {
       res.render('shop/product-detail', {
         product: product,
         pageTitle: product.title,
-        path: '/products'
+        path: '/products',
+        isAuthenticated: isLoggedIn
       });
     })
     .catch(err => console.log("Error while fetching a single product : ", err));
 };
 
 exports.getIndex = (req, res, next) => {
+  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   Product.find()
     .then(products => {
       res.render('shop/index', {
         products: products,
         pageTitle: 'Shop',
-        path: '/'
+        path: '/',
+        isAuthenticated: isLoggedIn
       });
     })
     .catch(err => {
@@ -44,6 +50,7 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
+  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   req.user
     .populate('cart.items.productId')
     .execPopulate() // Added because .populate() doesn't return a promise, so we couldn't chain .then()
@@ -53,7 +60,8 @@ exports.getCart = (req, res, next) => {
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',
-        products: cart
+        products: cart,
+        isAuthenticated: isLoggedIn
       });
     })
     .catch(err => console.log("getCart error : ", err));
@@ -114,12 +122,14 @@ exports.postOrder = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
+  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   Order.find({ "user.userId": req.user._id })
     .then(orders => {
       res.render('shop/orders', {
         path: '/orders',
         pageTitle: 'Your Orders',
-        orders: orders
+        orders: orders,
+        isAuthenticated: isLoggedIn
       });
     })
     .catch(err => console.log("Error getting orders", err));
