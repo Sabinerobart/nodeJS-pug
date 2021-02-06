@@ -60,24 +60,3 @@ userSchema.methods.clearCart = function () {
 }
 
 module.exports = mongoose.model('User', userSchema);
-
-
-// const getDb = require('../util/database').getDb;
-// const mongodb = require('mongodb');
-
-// class User {
-//   constructor(username, email, cart, id) {
-//     this.name = username;
-//     this.email = email;
-//     this.cart = cart;
-//     this._id = id;
-//   }
-
-//   getOrders() {
-//     const db = getDb();
-//     return db.collection('orders')
-//       .find({ 'user._id': new mongodb.ObjectId(this._id) })
-//       .toArray();
-//   }
-// }
-// module.exports = User;
