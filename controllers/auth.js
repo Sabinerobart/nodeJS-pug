@@ -18,3 +18,10 @@ exports.postLogin = (req, res, next) => {
     .catch(err => console.log(err));
   // next(); // Was added to bypass the user identification flow
 };
+
+exports.postLogout = (req, res, next) => {
+  req.session.destroy(err => { // method provided by the installed session package
+    console.log("Error logging out", err)
+    res.redirect('/')
+  });
+};
