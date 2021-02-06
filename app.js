@@ -29,6 +29,18 @@ app.use(session({
   store: store
 }));
 
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id) // Get the userId stored in the session
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+})
+
 const User = require('./models/user');
 
 app.use('/admin', adminRoutes);

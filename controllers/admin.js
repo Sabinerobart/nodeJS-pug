@@ -16,7 +16,7 @@ exports.postAddProduct = (req, res, next) => {
     price: price,
     description: description,
     imageUrl: imageUrl,
-    userId: req.session.user, // Mongoose selects the user id automatically, not necessary to specify
+    userId: req.user, // Mongoose selects the user id automatically, not necessary to specify
   });
 
   product
