@@ -1,17 +1,15 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
     editing: false,
-    isAuthenticated: isLoggedIn
+    isAuthenticated: req.session.isLoggedIn
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   const { title, imageUrl, price, description } = req.body;
   const product = new Product({
     title: title,
@@ -19,7 +17,7 @@ exports.postAddProduct = (req, res, next) => {
     description: description,
     imageUrl: imageUrl,
     userId: req.user, // Mongoose selects the user id automatically, not necessary to specify
-    isAuthenticated: isLoggedIn
+    isAuthenticated: req.session.isLoggedIn
   });
 
   product
@@ -39,7 +37,6 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
-  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   Product.findById(prodId)
     .then(product => {
       if (!product) {
@@ -50,7 +47,7 @@ exports.getEditProduct = (req, res, next) => {
         path: '/admin/edit-product',
         editing: editMode,
         product: product,
-        isAuthenticated: isLoggedIn
+        isAuthenticated: req.session.isLoggedIn
       });
     })
     .catch(err => console.log(err));
@@ -79,7 +76,6 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  const isLoggedIn = req.get('Cookie').split('=')[1] === 'true';
   Product.find()
     // .select('title price -_id') // Select which infos you want to keep, which ones to exclude with the '-' sign (or leave empty)
     // .populate('userId', 'name -_id') // Populate the results with the related user's infos, the second argument selects which infos you want to keep or leave out from the populate method
@@ -89,7 +85,7 @@ exports.getProducts = (req, res, next) => {
         prods: products,
         pageTitle: 'Admin Products',
         path: '/admin/products',
-        isAuthenticated: isLoggedIn
+        isAuthenticated: req.session.isLoggedIn
       });
     })
     .catch(err => console.log(err));
