@@ -21,7 +21,7 @@ exports.postLogin = (req, res, next) => {
 
 exports.postLogout = (req, res, next) => {
   req.session.destroy(err => { // method provided by the installed session package
-    console.log("Error logging out", err)
+    console.log("Logging out", err)
     res.redirect('/')
   });
 };
