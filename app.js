@@ -31,16 +31,6 @@ app.use(session({
 
 const User = require('./models/user');
 
-app.use((req, res, next) => {
-  User.findById(process.env.DUMMY_USER_ID) // Get the userId from DB => the dummy user created on app initialization (l.45)
-    .then(user => {
-      req.user = user; // Store the created user in the request
-      next();
-    })
-    .catch(err => console.log(err));
-  // next(); // Was added to bypass the user identification flow
-});
-
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
