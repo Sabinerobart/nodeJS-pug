@@ -16,10 +16,31 @@ exports.getSignup = (req, res, next) => {
   });
 };
 
-exports.postSignup = (req, res, next) => { };
+exports.postSignup = (req, res, next) => {
+  const { email, password, confirmPassword } = req.body;
+  // Check if MongoDB already has a user with this email
+  // (another way => create an index on the email field and give that index a uniq property)
+  User.findOne({ email: email })
+    .then(userDoc => {
+      if (userDoc) {
+        alert("This email already exists");
+        return res.redirect('/signup') // if user already exists, stay on the page
+      }
+      const user = new User({
+        email: email,
+        password: password,
+        cart: { items: [] }
+      });
+      return user.save(); // return the saved user so we can chain another then block
+    })
+    .then(() => {
+      res.redirect('/login');
+    })
+    .catch(err => console.log("Error checking if the user already exists on signup", err));
+};
 
 exports.postLogin = (req, res, next) => {
-  User.findById(process.env.DUMMY_USER_ID) // Get the userId from DB => the dummy user created on app initialization (l.45)
+  User.findById(process.env.DUMMY_USER_ID) // Get the userId from DB => the dummy user created on app initialization (~ l.59)
     .then(user => {
       req.session.isLoggedIn = true;
       req.session.user = user; // Store the created user in the request

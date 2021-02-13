@@ -54,21 +54,6 @@ mongoose.connect(process.env.DB_URL, {
   useUnifiedTopology: true
 })
   .then(() => {
-    User
-      .findOne()
-      .then(user => {
-        if (!user) { // Prevent saving a new user every time the app reloads
-          const user = new User({
-            name: 'Sabine',
-            email: 'sabine@test.com',
-            cart: {
-              items: []
-            }
-          }); // Initialize the app with a pre-configured user
-          user.save(); // Save the created user to MongoDB
-        }
-      })
-
     app.listen(3000);
     console.log("---------------")
     console.log("Connected to DB")
