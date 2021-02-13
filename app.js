@@ -70,4 +70,8 @@ mongoose.connect(process.env.DB_URL)
     console.log("---------------")
     console.log("Connected to DB")
   })
-  .catch(() => console.log("Error connecting to DB"))
+  .catch(err => {
+    console.log("Error connecting to DB", err);
+    console.log("Check your IPs List in MongoDB > Network Access"
+    )
+  })
