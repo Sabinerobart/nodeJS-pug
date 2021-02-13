@@ -49,7 +49,10 @@ app.use(authRoutes);
 
 app.use(errorController.get404);
 
-mongoose.connect(process.env.DB_URL)
+mongoose.connect(process.env.DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(() => {
     User
       .findOne()
@@ -71,7 +74,9 @@ mongoose.connect(process.env.DB_URL)
     console.log("Connected to DB")
   })
   .catch(err => {
+    console.log("---------------")
     console.log("Error connecting to DB", err);
+    console.log("---------------")
     console.log("Check your IPs List in MongoDB > Network Access"
     )
   })

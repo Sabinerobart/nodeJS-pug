@@ -8,6 +8,16 @@ exports.getLogin = (req, res, next) => {
   })
 };
 
+exports.getSignup = (req, res, next) => {
+  res.render('auth/signup', {
+    path: '/signup',
+    pageTitle: 'Signup',
+    isAuthenticated: false
+  });
+};
+
+exports.postSignup = (req, res, next) => { };
+
 exports.postLogin = (req, res, next) => {
   User.findById(process.env.DUMMY_USER_ID) // Get the userId from DB => the dummy user created on app initialization (l.45)
     .then(user => {
