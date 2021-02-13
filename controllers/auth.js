@@ -46,14 +46,30 @@ exports.postSignup = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  User.findById(process.env.DUMMY_USER_ID) // Get the userId from DB => the dummy user created on app initialization (~ l.59)
+  const { email, password } = req.body
+  User.findOne({ email: email }) // Get the userId from DB => the dummy user created on app initialization (~ l.59)
     .then(user => {
-      req.session.isLoggedIn = true;
-      req.session.user = user; // Store the created user in the request
-      req.session.save(err => { // Ensures the session is saved to mongoDB before redirect (prevent delayed infos)
-        console.log("Error saving the session", err)
-        res.redirect('/');
-      })
+      if (!user) {
+        return res.redirect('/login'); // don't execute the other code and stay on page
+      }
+      bcrypt.compare(password, user.password)
+        .then(doMatch => {
+          if (doMatch) {
+            req.session.isLoggedIn = true;
+            req.session.user = user; // Store the created user in the request
+            req.session.save(err => { // Ensures the session is saved to mongoDB before redirect (prevent delayed infos)
+              if (err) console.log("Error saving the session", err)
+              res.redirect('/');
+            });
+          } else {
+            res.redirect('/login');
+          }
+        })
+        .catch(err => {
+          console.log("Error comparing hashed passwords", err);
+          res.redirect('/login')
+        })
+
     })
     .catch(err => console.log(err));
   // next(); // Was added to bypass the user identification flow
@@ -61,7 +77,7 @@ exports.postLogin = (req, res, next) => {
 
 exports.postLogout = (req, res, next) => {
   req.session.destroy(err => { // method provided by the installed session package
-    console.log("Logging out", err)
+    if (err) console.log("Logging out", err)
     res.redirect('/')
   });
 };
