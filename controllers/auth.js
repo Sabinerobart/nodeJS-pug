@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
@@ -23,15 +25,19 @@ exports.postSignup = (req, res, next) => {
   User.findOne({ email: email })
     .then(userDoc => {
       if (userDoc) {
-        alert("This email already exists");
+        // alert("This email already exists");
         return res.redirect('/signup') // if user already exists, stay on the page
       }
-      const user = new User({
-        email: email,
-        password: password,
-        cart: { items: [] }
-      });
-      return user.save(); // return the saved user so we can chain another then block
+      return bcrypt
+        .hash(password, parseInt(process.env.SALT))// Use parseInt to convert the env value from string to number
+        .then(hashedPassword => {
+          const user = new User({
+            email: email,
+            password: hashedPassword,
+            cart: { items: [] }
+          });
+          return user.save();
+        });
     })
     .then(() => {
       res.redirect('/login');
