@@ -33,6 +33,7 @@ Vagrant.configure("2") do |config|
       python3-venv python3-pip \
       yarn
     # app
+    echo "cd /vagrant" >> /home/vagrant/.bashrc
     cd /vagrant && yarn install
   SHELL
 end
